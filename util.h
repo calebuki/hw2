@@ -14,18 +14,30 @@ template <typename T>
 std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
 {
 
+  std::set<T> combined;
 
+  for (typename std::set<T>::iterator it = s1.begin(); it != s1.end(); ++it){
+    if (s2.find(*it) != s2.end()) {
+      combined.insert(*it);
+    }
+  }
 
-
-
+  return combined;
 }
+
 template <typename T>
 std::set<T> setUnion(std::set<T>& s1, std::set<T>& s2)
 {
 
+  //set automatically deals with duplicates, so we can just put s1
+  //into the combined.
+  std::set<T> combined = s1;
 
+  for (typename std::set<T>::iterator it = s2.begin(); it != s2.end(); ++it){
+    combined.insert(*it);
+  }
 
-
+  return combined;
 
 }
 

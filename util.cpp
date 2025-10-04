@@ -14,17 +14,35 @@ std::string convToLower(std::string src)
 /** Complete the code to convert a string containing a rawWord
     to a set of words based on the criteria given in the assignment **/
 std::set<std::string> parseStringToWords(string rawWords)
-{
+{ 
+  //first convert to lower
+  std::string words = convToLower(rawWords);
 
+  std::set<std::string> keywords;
+  std::string curr;
 
+  for(size_t i = 0; i < words.size(); i++){
+    char c = words[i];
 
+    //check if the `curr` is alphabetical or numerical:
+    if ( (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') ) {
+        curr.push_back(c);
+    } else {
 
+        //also need to check if `curr` is long enough
+        if (curr.size() >= 2){
+            keywords.insert(curr);
+        }
+        curr.clear();
+    }
+  }
 
+  //get leftover string
+  if (curr.size()>= 2) {
+    keywords.insert(curr);
+  }
 
-
-
-
-
+  return keywords;
 }
 
 /**************************************************
