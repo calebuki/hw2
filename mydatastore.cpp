@@ -126,7 +126,6 @@ void MyDataStore::addToCart(std::string &username, Product *p){
   std::string user = convToLower(username);
   if (lowerUsers_.find(user) == lowerUsers_.end()) {
     //invlaid user!
-    std::cout << "Invalid username" << std::endl;
     return;
   }
 
@@ -147,11 +146,17 @@ void MyDataStore::viewCart(std::string &username, std::ostream& os){
   //find the user's cart
   std::map<std::string, std::vector<Product*>>::iterator cart_it = carts_.find(user);
   
+  //make sure the cart exists?
+  if (cart_it == carts_.end()) {
+    return;
+    //there's an empty cart so nothing to output
+  }
+
   //print 
   std::vector<Product*>& cart = cart_it->second;
   for (size_t i = 0; i < cart.size(); ++i){
-    std::cout << "Item " << (i+1) << std::endl;
-    std::cout << cart[i]->displayString() << std::endl;
+    os << "Item " << (i+1) << std::endl;
+    os << cart[i]->displayString() << std::endl;
   }
 }
 
@@ -162,7 +167,6 @@ void MyDataStore::buyCart(std::string &username) {
   std::string user = convToLower(username);
   if (lowerUsers_.find(user) == lowerUsers_.end()) {
     //invlaid user!
-    std::cout << "Invalid username" << std::endl;
     return;
   }
 

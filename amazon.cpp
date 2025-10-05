@@ -104,8 +104,8 @@ int main(int argc, char* argv[])
             else if (cmd == "ADD") {
                 string username;
                 int hit;
-                if (ss >> username, hit){
-                    if (hit >= 1 && hit <= hits.size()) {
+                if (ss >> username >> hit){
+                    if (hit >= 1 && hit <= (int)hits.size()) {
                         //add to cart
                         ds.addToCart(username, hits[hit - 1]);
                     } else {
