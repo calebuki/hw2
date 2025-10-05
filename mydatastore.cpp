@@ -44,7 +44,8 @@ std::vector<Product*> MyDataStore::search(std::vector<std::string>& terms, int t
 
   //AND search 
   //returns all the products that contain ALL the search terms entered
-  //so essentially an intersection set
+  //so essentially an intersection set, we have to match everything
+  //to the first term
   
   if (type == 0) {
     std::set<Product*> intersection;
@@ -70,12 +71,14 @@ std::vector<Product*> MyDataStore::search(std::vector<std::string>& terms, int t
       }
     } 
 
+    //put items from the set into the vector to return
     for (std::set<Product*>::iterator blah = intersection.begin(); blah != intersection.end(); ++blah) {
       temp.push_back(*blah);
     }
   }
 
   //OR search
+  //basically just a union set
   else {
     std::set<Product*> myUnion;
 
@@ -90,6 +93,7 @@ std::vector<Product*> MyDataStore::search(std::vector<std::string>& terms, int t
       //else: theres nothingn to union
     }
 
+    //put items from the set into the vector to return
     for (std::set<Product*>::iterator blah = myUnion.begin(); blah != myUnion.end(); ++blah) {
       temp.push_back(*blah);
     }
@@ -126,6 +130,7 @@ void MyDataStore::addToCart(std::string &username, Product *p){
   std::string user = convToLower(username);
   if (lowerUsers_.find(user) == lowerUsers_.end()) {
     //invlaid user!
+    std::cout << "Invalid request" << std::endl;
     return;
   }
 
@@ -167,16 +172,13 @@ void MyDataStore::buyCart(std::string &username) {
   std::string user = convToLower(username);
   if (lowerUsers_.find(user) == lowerUsers_.end()) {
     //invlaid user!
+    std::cout << "Invalid username" << std::endl;
     return;
   }
 
 
   std::map<std::string, User*>::iterator user_it = lowerUsers_.find(user);
   User *u = user_it->second;
-
-  //If the item is in stock AND the user has enough money 
-  //it should be removed from the cart, the in stock quantity reduced by 1, 
-  //and the product price should be debited from the user’s available credit.
 
   //we need to go thru the whole cart of the user
   std::vector<Product*>& cart = carts_[user];
@@ -185,7 +187,7 @@ void MyDataStore::buyCart(std::string &username) {
 
     Product *p = *it;
 
-    //if p exists
+    //if the product exists
     if (p != nullptr){
 
       //check if user has enough money AND there's enough to buy

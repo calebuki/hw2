@@ -25,7 +25,7 @@ std::set<std::string> parseStringToWords(string rawWords)
     char c = words[i];
 
     //check if the `curr` is alphabetical or numerical:
-    if ( (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') ) {
+    if ( (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' ) {
         curr.push_back(c);
     } else {
 
